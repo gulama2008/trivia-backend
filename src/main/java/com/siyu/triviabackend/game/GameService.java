@@ -1,6 +1,8 @@
 package com.siyu.triviabackend.game;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Locale.Category;
 import java.util.Optional;
 
@@ -32,11 +34,12 @@ public class GameService {
     
     public Optional<Game> updateById(Long id, GameUpdateDTO data) {
         Optional<Game> foundGame = this.getById(id);
-        if(foundGame.isPresent()) {
+        if (foundGame.isPresent()) {
             Game toUpdate = foundGame.get();
             toUpdate.setScore(data.getScore());
             Game updatedGame = this.gameRepository.save(toUpdate);
             return Optional.of(updatedGame);
+
         }
 	    return foundGame;
     }

@@ -23,17 +23,12 @@ public class Question {
     private Long id;
 
     @Column
-    private Integer apiId;
-
-    @Column
     private String question;
 
     @Column
-    private String correntAnswer;
-
+    private String correctAnswer;
     @Column
-    private String[] incorrentAnswer;
-
+    private String[] incorrectAnswer;
     @Column
     private String submittedAnswer;
 
@@ -47,12 +42,12 @@ public class Question {
     public Question() {
     }
     
-    public Question(Integer apiId,String question,String correctAnswer,String[] incorrentAnswer,String submittedAnswer,boolean failedOrNot) {
-        this.apiId = apiId;
+    public Question(String question,String correctAnswer,String[] incorrectAnswer,String submittedAnswer,boolean failedOrNot,Game game) {
         this.question = question;
-        this.correntAnswer = correctAnswer;
-        this.incorrentAnswer = incorrentAnswer;
+        this.correctAnswer = correctAnswer;
+        this.incorrectAnswer = incorrectAnswer;
         this.submittedAnswer = submittedAnswer;
         this.failedOrNot = failedOrNot;
+        this.game = game;
     }
 }
