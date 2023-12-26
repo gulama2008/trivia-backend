@@ -1,7 +1,6 @@
 package com.siyu.triviabackend.question;
 
 import java.util.List;
-import java.util.Locale.Category;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.siyu.triviabackend.game.Game;
 import com.siyu.triviabackend.game.GameRepository;
+import com.siyu.triviabackend.game.GameUpdateDTO;
 
 import jakarta.transaction.Transactional;
 
@@ -40,13 +40,34 @@ public class QuestionService {
             String correctAnswer=data.getCorrentAnswer();
             String[] incorrectAnswer = data.getIncorrentAnswer();
             String submittedAnswer = data.getSubmittedAnswer();
-            boolean failedOrNot = data.isFailedOrNot();
+            boolean failureStatus = data.isFailureStatus();
             Game gameParam = game.get();
             Question newQuestion = new Question( question, correctAnswer, incorrectAnswer, submittedAnswer,
-                    failedOrNot, gameParam);
+                    failureStatus, gameParam);
             Question created = this.questionRepository.save(newQuestion);
             return created;
         }
         return null;
+    }
+
+    public List<Question> getAllFailedQuestions() {
+        List<Question> questions = questionRepository.findByFailureStatus(true);
+        return questions;
+    }
+    
+    public Optional<Question> updateById(Long id, QuestionUpdateDTO data) {
+        System.out.println(data);
+        Optional<Question> foundQuestion = this.getById(id);
+        if (foundQuestion.isPresent()) {
+            Question toUpdate = foundQuestion.get();
+            toUpdate.setSubmittedAnswer(data.getSubmittedAnswer());
+            
+                toUpdate.setFailureStatus(data.isFailureStatus());
+            
+            Question updatedQuestion = this.questionRepository.save(toUpdate);
+            return Optional.of(updatedQuestion);
+
+        }
+	    return foundQuestion;
     }
 }

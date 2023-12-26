@@ -1,22 +1,17 @@
 package com.siyu.triviabackend.question;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class QuestionCreateDTO {
-   
-    private String question;
-
-    private String correntAnswer;
-
-    private String[] incorrentAnswer;
+public class QuestionUpdateDTO {
 
     private String submittedAnswer;
 
+   
     private boolean failureStatus;
 
-    private Long gameId;
-
+    
 }

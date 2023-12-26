@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siyu.triviabackend.exceptions.NotFoundException;
+import com.siyu.triviabackend.game.Game;
 
 import jakarta.validation.Valid;
 
@@ -49,6 +50,21 @@ public class QuestionController {
             throw new NotFoundException(String.format("Could not found game with id %d", data.getGameId()));
         }
         return new ResponseEntity<>(newQuestion, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/failed")
+    public ResponseEntity<List<Question>> getAllFailedQuestions() {
+        List<Question> allFailedQuestions = this.questionService.getAllFailedQuestions();
+        return new ResponseEntity<>(allFailedQuestions, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Question> updateById(@PathVariable Long id, @Valid @RequestBody QuestionUpdateDTO data) {
+        Optional<Question> updated = this.questionService.updateById(id, data);
+        if (updated.isPresent()) {
+			return new ResponseEntity<Question>(updated.get(), HttpStatus.OK);
+		}
+        throw new NotFoundException(String.format("Question with id %d does not exist, could not update", id));
     }
 
 }

@@ -32,8 +32,11 @@ public class Question {
     @Column
     private String submittedAnswer;
 
+    // @Column
+    // private boolean failedOrNot;
+
     @Column
-    private boolean failedOrNot;
+    private boolean failureStatus;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -42,12 +45,12 @@ public class Question {
     public Question() {
     }
     
-    public Question(String question,String correctAnswer,String[] incorrectAnswer,String submittedAnswer,boolean failedOrNot,Game game) {
+    public Question(String question,String correctAnswer,String[] incorrectAnswer,String submittedAnswer,boolean failureStatus,Game game) {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.incorrectAnswer = incorrectAnswer;
         this.submittedAnswer = submittedAnswer;
-        this.failedOrNot = failedOrNot;
+        this.failureStatus = failureStatus;
         this.game = game;
     }
 }
